@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.hayate.wechat.common.util.HttpClientUtil;
@@ -14,6 +15,7 @@ import com.hayate.wechat.common.util.JsonUtils;
 import com.hayate.wechat.oa.config.WeChatOaConfig;
 import com.hayate.wechat.oa.service.UserManagementService;
 
+@Service
 public class UserManagementServiceImpl extends BaseService implements
 		UserManagementService {
 
