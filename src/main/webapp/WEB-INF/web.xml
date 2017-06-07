@@ -22,7 +22,7 @@
 	</context-param>
 	<!--Spring的ApplicationContext 载入 -->	
 	<listener>
-        <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>  
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 	
 	<!-- 编码过滤器，以UTF8编码 -->

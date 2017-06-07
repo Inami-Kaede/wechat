@@ -4,4 +4,4 @@
 .classpath
 .project
 *.iml
-/logs/
+/logs
