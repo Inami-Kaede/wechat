@@ -7,6 +7,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import com.hayate.wechat.oa.controller.AuthController;
+import com.hayate.wechat.oa.service.AccessService;
 import com.hayate.wechat.oa.service.AuthService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -17,8 +19,16 @@ public class SpringTest {
 	@Autowired
 	private AuthService authService;
 	
+	@Autowired
+	private AccessService accessService;
+	
+	@Autowired
+	private AuthController authController;
+	
 	@Test
 	public void contextTest(){
 		System.out.println(authService);
+		System.out.println(authController);
+		System.out.println(accessService);
 	}
 }
