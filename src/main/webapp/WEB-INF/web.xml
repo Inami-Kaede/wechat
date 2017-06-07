@@ -29,6 +29,19 @@
 	<listener>  
 	         <listener-class>ch.qos.logback.ext.spring.web.LogbackConfigListener</listener-class>  
 	</listener> 
+<<<<<<< HEAD
+=======
+
+	<!-- Context ConfigLocation -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath*:spring/spring-context*.xml</param-value>
+	</context-param>
+	<!--Spring的ApplicationContext 载入 -->	
+	<listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+>>>>>>> branch 'master' of https://github.com/Inami-Kaede/wechat.git
 	
 	<!-- 编码过滤器，以UTF8编码 -->
 	<filter>
