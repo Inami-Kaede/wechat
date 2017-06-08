@@ -1,2 +1,2 @@
 # wechat
-wechat test
+微信接口

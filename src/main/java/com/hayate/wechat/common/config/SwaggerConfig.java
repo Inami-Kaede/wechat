@@ -32,8 +32,7 @@ public class SwaggerConfig {
     	//没搞懂这是啥
     	Collection<VendorExtension> list = new ArrayList<VendorExtension>();
     	//list.add(v);
-    	
-    	
+    	  	
         return new Docket(DocumentationType.SWAGGER_2)
         		.apiInfo(new ApiInfo("微信接口", "按照文档模块分", "0.0.1", "www.baidu.com", new Contact("Hayate", "moe.hao123.com", "hayatenokiseki@gmail.com"), "点击我进入微信文档", "https://mp.weixin.qq.com/wiki",list))
                 .select()  // 选择那些路径和api会生成document
