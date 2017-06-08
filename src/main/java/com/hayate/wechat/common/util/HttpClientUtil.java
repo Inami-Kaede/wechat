@@ -48,7 +48,7 @@ public class HttpClientUtil {
 		try {
 			// 创建uri
 			URIBuilder builder = new URIBuilder(url);
-			if (params != null) {
+			if (params != null && !params.isEmpty()) {
 				for (String key : params.keySet()) {
 					builder.addParameter(key, params.get(key));
 				}
@@ -133,7 +133,7 @@ public class HttpClientUtil {
 		try {
 			// 创建uri
 			URIBuilder builder = new URIBuilder(url);
-			if (!params.isEmpty()) {
+			if (params != null && !params.isEmpty()) {
 				for (String key : params.keySet()) {
 					builder.addParameter(key, params.get(key));
 				}

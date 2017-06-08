@@ -9,10 +9,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import com.hayate.wechat.common.base.BaseService;
+import com.hayate.wechat.common.config.WeChatOaConfig;
 import com.hayate.wechat.common.util.CommonUtil;
 import com.hayate.wechat.common.util.MapUtil;
 import com.hayate.wechat.common.util.MessageUtil;
-import com.hayate.wechat.oa.config.WeChatOaConfig;
 import com.hayate.wechat.oa.pojo.receive.BaseReceiveEvent;
 import com.hayate.wechat.oa.pojo.receive.ReceiveEventCustom;
 import com.hayate.wechat.oa.pojo.receive.ReceiveEventLocation;

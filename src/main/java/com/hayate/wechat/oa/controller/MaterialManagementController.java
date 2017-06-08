@@ -20,7 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.hayate.wechat.oa.config.WeChatOaConfig;
+import com.hayate.wechat.common.base.BaseController;
+import com.hayate.wechat.common.config.WeChatOaConfig;
 import com.hayate.wechat.oa.service.MaterialManagementService;
 
 @Api(tags="微信公众号-素材管理")

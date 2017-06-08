@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.hayate.wechat.common.base.BaseController;
 import com.hayate.wechat.oa.service.DataCubeService;
 
 @Api(tags="微信公众号-数据统计模块")

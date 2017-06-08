@@ -10,9 +10,10 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.hayate.wechat.common.base.BaseService;
+import com.hayate.wechat.common.config.WeChatOaConfig;
 import com.hayate.wechat.common.util.HttpClientUtil;
 import com.hayate.wechat.common.util.JsonUtils;
-import com.hayate.wechat.oa.config.WeChatOaConfig;
 import com.hayate.wechat.oa.service.MessageManagementService;
 
 @Service

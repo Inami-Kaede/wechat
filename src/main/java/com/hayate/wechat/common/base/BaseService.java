@@ -1,4 +1,4 @@
-package com.hayate.wechat.oa.service.impl;
+package com.hayate.wechat.common.base;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -13,9 +13,9 @@ import org.springframework.data.redis.core.BoundValueOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.StringUtils;
 
+import com.hayate.wechat.common.config.WeChatOaConfig;
 import com.hayate.wechat.common.util.HttpClientUtil;
 import com.hayate.wechat.common.util.JsonUtils;
-import com.hayate.wechat.oa.config.WeChatOaConfig;
 
 
 public abstract class BaseService{

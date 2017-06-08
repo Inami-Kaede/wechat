@@ -1,4 +1,4 @@
-package com.hayate.wechat.oa.controller;
+package com.hayate.wechat.common.base;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

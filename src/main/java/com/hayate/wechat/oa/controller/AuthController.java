@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.hayate.wechat.common.base.BaseController;
 import com.hayate.wechat.oa.service.AuthService;
 
 @Api(tags="微信公众号-网页授权")

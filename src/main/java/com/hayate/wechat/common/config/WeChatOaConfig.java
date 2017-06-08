@@ -1,4 +1,4 @@
-package com.hayate.wechat.oa.config;
+package com.hayate.wechat.common.config;
 
 import java.io.File;
 
@@ -7,19 +7,18 @@ public class WeChatOaConfig {
 	//===========================================公众号配置（开始）===================================================//	
 	
 	//--------------------------生产环境（开始）------------------------------------------//
-
-	/*//公众号(优大俱乐部)
-	public final static String APP_ID = "wx2f38a497874194bd";
 	
-	public final static String APP_SECRET = "de2078b9d734b597abcc3d48b4090fb2";*/
+/*	public final static String APP_ID = "";
+	
+	public final static String APP_SECRET = "";*/
 	
 	/**
-	 * 优大俱乐部token
+	 * token
 	 */
 	public final static String TOKEN = "233233";
 
 	/**
-	 * 优大俱乐部encodingAESKey
+	 * encodingAESKey
 	 */
 	public final static String ENCODING_AES_KEY = "AHPHihfW9WhLWgSZ2OfGklsP6K7HYzeghaFOu7KCugh";
 
@@ -52,21 +51,52 @@ public class WeChatOaConfig {
 	
 	/**
 	 * 商户支付密钥Key。审核通过后，在微信发送的邮件中查看
-	 * 优大俱乐部
 	 */
 	public final static String KEY = "LHo0mjdEbsAv8tW6VZxnmk0xmAoadio2";
 	
-	public final static String SIGN_TYPE = "MD5";// 签名加密方式
-
+	/**
+	 * 签名加密方式
+	 */
+	public final static String SIGN_TYPE = "MD5";
+	
+	public final static String CHARSET = "UTF-8";
+	
 	/**
 	 * 证书路径
 	 */
-	public final static String CertPath = new File(WeChatOaConfig.class.getResource("/").getPath() +"oa_apiclient_cert.p12").getPath();
+	public final static String CERT_PATH = new File(WeChatOaConfig.class.getResource("/").getPath() +"oa_apiclient_cert.p12").getPath();
 
 	/**
 	 * 证书密码
 	 */
-	public final static String CertPassword = MCHID;
+	public final static String CERT_PASSWORD = MCHID;
+	
+	/**
+	 * 订单过期时间（分钟）
+	 */
+	public final static int ORDER_EXPIRE = 90;
+	
+	public final static String TRADE_TYPE_JSAPI = "JSAPI";
+	
+	public final static String TRADE_TYPE_NATIVE = "NATIVE";
+	
+	public final static String TRADE_TYPE_APP = "APP";
+	
+	public final static int INT_TRADE_TYPE_JSAPI = 0;
+	
+	public final static int INT_TRADE_TYPE_NATIVE = 1;
+	
+	public final static int INT_TRADE_TYPE_APP = 2;
+	
+	/**
+	 * 订单查询类型：微信支付订单号
+	 */
+	public final static int ORDER_QUERY_TYPE_TRANSACTION_ID = 0;
+	
+	/**
+	 * 订单查询类型：商户订单号
+	 */
+	public final static int ORDER_QUERY_TYPE_OUT_TRADE_NO = 1;
 	
 	//--------------------------基本配置（结束）------------------------------------------//
 	
@@ -74,53 +104,52 @@ public class WeChatOaConfig {
 	/**
 	 * 微信支付接口地址	POST
 	 */
-	public final static String UNIFIED_ORDER_URL = "https://api.mch.weixin.qq.com/pay/unifiedorder";
+	public final static String PAY_UNIFIED_ORDER = "https://api.mch.weixin.qq.com/pay/unifiedorder";
 	
 	/**
 	 * 微信退款接口	POST
 	 */
-	public final static String REFUND_URL = "https://api.mch.weixin.qq.com/secapi/pay/refund";
+	public final static String PAY_REFUND = "https://api.mch.weixin.qq.com/secapi/pay/refund";
 	
 	/**
 	 * 订单查询接口(POST)
 	 */
-	public final static String CHECK_ORDER_URL = "https://api.mch.weixin.qq.com/pay/orderquery";
+	public final static String PAY_ORDER_QUERY = "https://api.mch.weixin.qq.com/pay/orderquery";
 	 
 	/**
 	 * 关闭订单接口(POST)
 	 */
-	public final static String CLOSE_ORDER_URL = "https://api.mch.weixin.qq.com/pay/closeorder";
+	public final static String PAY_CLOSE_ORDER = "https://api.mch.weixin.qq.com/pay/closeorder";
 	
 	/**
 	 * 退款查询接口(POST)
 	 */
-	public final static String CHECK_REFUND_URL = "https://api.mch.weixin.qq.com/pay/refundquery";
+	public final static String PAY_REFUND_QUERY = "https://api.mch.weixin.qq.com/pay/refundquery";
 	
 	/**
 	 * 对账单接口(POST)
 	 */
-	public final static String DOWNLOAD_BILL_URL = "https://api.mch.weixin.qq.com/pay/downloadbill";
+	public final static String PAY_DOWNLOAD_BILL = "https://api.mch.weixin.qq.com/pay/downloadbill";
 	
 	/**
 	 * 接口调用上报接口(POST)
 	 */
-	public final static String REPORT_URL = "https://api.mch.weixin.qq.com/payitil/report";
+	public final static String PAY_REPORT = "https://api.mch.weixin.qq.com/payitil/report";
 	 
 	/**
 	 * 企业打款	POST
 	 */
-	public final static String TRANSFERS = "https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers";
+	public final static String PAY_TRANSFERS = "https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers";
 
 	/**
 	 * 企业打款查询　POST
 	 */
-	public final static String GET_TRANSFER_INFO = "https://api.mch.weixin.qq.com/mmpaymkttransfers/gettransferinfo";
+	public final static String PAY_GET_TRANSFER_INFO = "https://api.mch.weixin.qq.com/mmpaymkttransfers/gettransferinfo";
 	
 	/**！！！！！！！！！！！！！！！！！！！！！！！非常重要！！！！！！！！！！！！！！！！！！！！！！！！！！！
 	 * 微信支付统一接口的回调action
 	 */
 	public final static String NOTIFY_URL = "http://1v6721s159.iask.in/yd-service/ms/v1/pay/wechatback";
-	//public final static String NOTIFY_URL = "http://m.youda999.com/ms/v1/pay/wechatback";
 			 
 	/**
 	 * 微信支付成功支付后跳转的地址	
@@ -129,9 +158,7 @@ public class WeChatOaConfig {
 	//--------------------------支付相关url地址（结束）------------------------------------------//
 	
 	//===========================================支付相关配置（结束）===================================================//
-	
-
-
+		
 	
 	
 	//==========================公众号接入相关（开始）============================================

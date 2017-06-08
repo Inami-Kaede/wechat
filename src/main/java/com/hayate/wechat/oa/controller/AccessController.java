@@ -22,11 +22,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.hayate.wechat.common.base.BaseController;
+import com.hayate.wechat.common.config.WeChatOaConfig;
 import com.hayate.wechat.common.util.AesException;
 import com.hayate.wechat.common.util.CommonUtil;
 import com.hayate.wechat.common.util.SHA1;
 import com.hayate.wechat.common.util.WXBizMsgCrypt;
-import com.hayate.wechat.oa.config.WeChatOaConfig;
 import com.hayate.wechat.oa.service.AccessService;
 
 @Api(tags="微信公众号-接入及消息返回")

@@ -1,4 +1,4 @@
-package com.hayate.wechat.pay.config;
+package com.hayate.wechat.common.config;
 
 public class AliPayConfig {
 
@@ -39,10 +39,6 @@ public class AliPayConfig {
 	public static final String CHARSET = "utf-8";
 	
 	public static final String FORMAT = "json";
-
-	
-
-	
 	
 	/**
 	 * ALIPAY_USERID：支付宝账号对应的支付宝唯一用户号。以2088开头的16位纯数字组成
@@ -58,6 +54,5 @@ public class AliPayConfig {
 	 * 支付宝统一接口的回调action
 	 */
 	public final static String NOTIFY_URL = "http://1v6721s159.iask.in/yd-service/ms/v1/pay/alipayback";
-	//public final static String NOTIFY_URL = "http://m.youda999.com/ms/v1/pay/alipayback";
 
 }

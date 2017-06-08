@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.hayate.wechat.common.base.BaseController;
+
 @Api(tags="微信公众号-view按钮跳转")
 @Controller
 @RequestMapping(value = "wechat/oa/redirect")

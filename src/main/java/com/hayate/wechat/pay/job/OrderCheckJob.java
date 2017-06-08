@@ -24,9 +24,9 @@ public class OrderCheckJob {
 	 */
 	
 	//每一分钟（测试用）
-	//@Scheduled(cron = "0 0/1 * * * ?")
+	@Scheduled(cron = "0 0/1 * * * ?")
 	//每天十二点
-	@Scheduled(cron = "0 0 0 * * ?")
+	//@Scheduled(cron = "0 0 0 * * ?")
 	@Transactional(readOnly = false)
 	public void OrderCheck(){
 		
