@@ -64,12 +64,23 @@ public class WeChatOaConfig {
 	/**
 	 * 证书路径
 	 */
-	public final static String CERT_PATH = new File(WeChatOaConfig.class.getResource("/").getPath() +"oa_apiclient_cert.p12").getPath();
+	public final static String CERT_PATH = new File(WeChatOaConfig.class.getResource("/").getPath() +"apiclient_cert.p12").getPath();
 
 	/**
 	 * 证书密码
 	 */
 	public final static String CERT_PASSWORD = MCHID;
+	
+	
+	/**
+	 * 企业付款描述信息
+	 */
+	public final static String TRANSFERS_DESC = "提现";
+	
+	/**
+	 * 被通知的邮箱地址
+	 */
+	public final static String ADMIN_MAIL_ADRESS = "tomkarry@foxmail.com";
 	
 	/**
 	 * 订单过期时间（分钟）

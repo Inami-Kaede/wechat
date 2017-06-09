@@ -17,9 +17,6 @@ import com.hayate.wechat.common.util.JsonUtils;
 import com.hayate.wechat.oa.service.MessageManagementService;
 
 @Service
-@Lazy(false)
-@Transactional(readOnly = true)
-@SuppressWarnings("all")
 public class MessageManagementServiceImpl extends BaseService implements
 		MessageManagementService {
 

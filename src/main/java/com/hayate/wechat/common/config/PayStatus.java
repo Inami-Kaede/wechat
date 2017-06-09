@@ -130,9 +130,35 @@ public class PayStatus {
 	 */
 	public final static String PAY_ERR_CODE_REPETITIVE_SUBMISSION = "REPETITIVE_SUBMISSION";
 	
+	
+	/**
+	 * 订单状态错误
+	 */
+	public final static String PAY_ERR_CODE_TRADE_STATUS_ERROR = "TRADE_STATUS_ERROR";
+	
+	
+	/**
+	 * 因为支付宝的订单被关闭也会有回调信息，所以此处单独列出来一个状态用作业务处理（也可以不在回调中处理，通过每天定时任务去处理被关闭的订单）
+	 * 订单被关闭（用于支付宝回调业务处理）
+	 */
+	public final static String PAY_ERR_CODE_ALI_ORDER_CLOSED = "ALI_ORDER_CLOSED";
+	
 	//===========================================自定义错误码相关配置（结束）===================================================//
 	
 	//★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★华丽的分割线★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
+	
+	//----------------------支付宝支付业务状态码（结束）----------------------
+	/**
+	 * 支付宝回调返回码	成功
+	 */
+	public final static String ALI_NOTIFY_RETURN_CODE_SUCCESS = "success";
+	
+	/**
+	 * 支付宝回调返回码	成功
+	 */
+	public final static String ALI_NOTIFY_RETURN_CODE_FAILURE = "failure";
+	//----------------------支付宝支付业务状态码（结束）----------------------
+	
 	
 	//----------------------支付宝交易状态（开始）----------------------
 	/**

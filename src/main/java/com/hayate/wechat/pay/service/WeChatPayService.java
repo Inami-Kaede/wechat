@@ -27,4 +27,10 @@ public interface WeChatPayService {
 
 	CommonResult orderQueryByTransactionId(String orderId);
 
+	CommonResult closeOrder(String orderId);
+
+	CommonResult transfers(Double amount, String orderId, String openId);
+
+	CommonResult transfersQuery(String orderId);
+
 }

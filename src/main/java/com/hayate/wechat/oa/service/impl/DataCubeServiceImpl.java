@@ -19,9 +19,6 @@ import com.hayate.wechat.common.util.JsonUtils;
 import com.hayate.wechat.oa.service.DataCubeService;
 
 @Service
-@Lazy(false)
-@Transactional(readOnly = true)
-@SuppressWarnings("all")
 public class DataCubeServiceImpl extends BaseService implements DataCubeService {
 	
 	/**

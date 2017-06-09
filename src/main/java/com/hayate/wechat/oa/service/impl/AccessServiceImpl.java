@@ -40,9 +40,6 @@ import com.hayate.wechat.oa.service.AccountManagementService;
 import com.hayate.wechat.oa.service.MaterialManagementService;
 
 @Service
-@Lazy(false)
-@Transactional(readOnly = true)
-@SuppressWarnings("all")
 public class AccessServiceImpl extends BaseService implements AccessService {
 	
 	@Autowired
