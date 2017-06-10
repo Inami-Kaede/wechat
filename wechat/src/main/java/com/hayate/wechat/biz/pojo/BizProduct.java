@@ -1,6 +1,7 @@
 package com.hayate.wechat.biz.pojo;
 
 import java.util.Date;
+
 import javax.persistence.*;
 
 @Table(name = "biz_product")

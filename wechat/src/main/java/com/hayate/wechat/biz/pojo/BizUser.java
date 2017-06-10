@@ -2,6 +2,7 @@ package com.hayate.wechat.biz.pojo;
 
 import java.math.BigDecimal;
 import java.util.Date;
+
 import javax.persistence.*;
 
 @Table(name = "biz_user")
