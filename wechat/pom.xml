@@ -48,7 +48,8 @@
 	<maven-resources-plugin.version>3.0.2</maven-resources-plugin.version>
 	<jdk.version>1.7</jdk.version>
 	
-	<log.moduleName>ssm-project</log.moduleName>  
+	<!-- logback日志相关配置 -->
+	<log.moduleName>wechat-project</log.moduleName>  
     <log.base>logs</log.base>  
     <log.other.level>DEBUG</log.other.level>  
     <log.root.level>DEBUG</log.root.level>  

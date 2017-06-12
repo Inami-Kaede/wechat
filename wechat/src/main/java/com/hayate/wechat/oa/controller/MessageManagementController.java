@@ -124,4 +124,94 @@ public class MessageManagementController extends BaseController{
 		
 		return messageManagementService.pushMessagePreview(toUserType, toUser, mediaId, msgType);
 	}
+	
+	@ApiOperation(value = "设置所属行业") 
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "industryId1", value = "公众号模板消息所属行业编号",required = true, dataType = "Integer", paramType = "query"),
+		@ApiImplicitParam(name = "industryId2", value = "公众号模板消息所属行业编号",required = true, dataType = "Integer", paramType = "query")
+	})
+	@RequestMapping(value="template/industry/set", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> setIndustry(@RequestParam(required=true)int industryId1,@RequestParam(required=true)int industryId2){
+		
+		String log = "设置所属行业";
+		logger.info("收到"+log+"请求");
+
+		
+		return messageManagementService.setIndustry(industryId1, industryId2);
+	}
+	
+	@ApiOperation(value = "获取设置的行业信息") 
+	@RequestMapping(value="template/industry/get", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> getIndustry(){
+		
+		String log = "获取设置的行业信息";
+		logger.info("收到"+log+"请求");
+
+		
+		return messageManagementService.getIndustry();
+	}
+	
+	@ApiOperation(value = "获得模板ID") 
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "templateIdShort", value = "模板库中模板的编号，有“TM**”和“OPENTMTM**”等形式",required = true, dataType = "String", paramType = "query")
+	})
+	@RequestMapping(value="template/add", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> addTemplate(@RequestParam(required=true)String templateIdShort){
+		
+		String log = "获得模板ID";
+		logger.info("收到"+log+"请求");
+
+		
+		return messageManagementService.addTemplate(templateIdShort);
+	}
+	
+	@ApiOperation(value = "获取模板列表") 
+	@RequestMapping(value="template/all", method = RequestMethod.GET)
+	@ResponseBody
+	public List<Map<String,Object>> getAllPrivateTemplate(){
+		
+		String log = "获取模板列表";
+		logger.info("收到"+log+"请求");
+
+		
+		return messageManagementService.getAllPrivateTemplate();
+	}
+	
+	@ApiOperation(value = "删除模板") 
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "templateId", value = "公众帐号下模板消息ID",required = true, dataType = "String", paramType = "query")
+	})
+	@RequestMapping(value="template/del", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> delPrivateTemplate(@RequestParam(required=true)String templateId){
+		
+		String log = "删除模板";
+		logger.info("收到"+log+"请求");
+
+		
+		return messageManagementService.delPrivateTemplate(templateId);
+	}
+	
+	@ApiOperation(value = "发送模板消息") 
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "touser", value = "接收者openid",required = true, dataType = "String", paramType = "query"),
+		@ApiImplicitParam(name = "templateId", value = "模板ID",required = true, dataType = "String", paramType = "query"),
+		@ApiImplicitParam(name = "url", value = "模板跳转链接",required = true, dataType = "String", paramType = "query"),
+		@ApiImplicitParam(name = "miniprogram", value = "跳小程序所需数据，不需跳小程序可不用传该数据", dataType = "Model", paramType = "query"),
+		@ApiImplicitParam(name = "data", value = "模板数据",required = true, dataType = "Model", paramType = "query")
+	})
+	@RequestMapping(value="template/send", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> send(@RequestParam(required=true)String touser,@RequestParam(required=true)String templateId,@RequestParam(required=true)String url,
+			Map<String,Object> miniprogram,@RequestParam(required=true)Map<String,Object> data){
+		
+		String log = "发送模板消息";
+		logger.info("收到"+log+"请求");
+
+		
+		return messageManagementService.send(touser, templateId, url, miniprogram, data);
+	}
 }

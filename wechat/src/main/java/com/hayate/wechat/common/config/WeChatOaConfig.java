@@ -336,6 +336,46 @@ public class WeChatOaConfig {
 	
 	//===========================================消息管理模块（开始）===================================================//
 	
+	//--------------------------发送消息-模板消息接口（开始）------------------------------------------//
+	
+	/**
+	 * 设置所属行业	POST
+	 * https://api.weixin.qq.com/cgi-bin/template/api_set_industry?access_token=ACCESS_TOKEN
+	 */
+	public static final String TEMPLATE_SET_INDUSTRY = "https://api.weixin.qq.com/cgi-bin/template/api_set_industry";
+	
+	/**
+	 * 获取设置的行业信息	GET
+	 * https://api.weixin.qq.com/cgi-bin/template/get_industry?access_token=ACCESS_TOKEN
+	 */
+	public static final String TEMPLATE_GET_INDUSTRY = "https://api.weixin.qq.com/cgi-bin/template/get_industry";
+	
+	/**
+	 * 获得模板ID	POST
+	 * https://api.weixin.qq.com/cgi-bin/template/api_add_template?access_token=ACCESS_TOKEN
+	 */
+	public static final String TEMPLATE_ADD_TEMPLATE = "https://api.weixin.qq.com/cgi-bin/template/api_add_template";
+	
+	/**
+	 * 获取模板列表	GET
+	 * https://api.weixin.qq.com/cgi-bin/template/get_all_private_template?access_token=ACCESS_TOKEN
+	 */
+	public static final String TEMPLATE_GET_ALL_PRIVATE_TEMPLATE = "https://api.weixin.qq.com/cgi-bin/template/get_all_private_template";
+	
+	/**
+	 * 删除模板	POST
+	 * https://api.weixin.qq.com/cgi-bin/template/del_private_template?access_token=ACCESS_TOKEN
+	 */
+	public static final String TEMPLATE_DEL_PRIVATE_TEMPLATE = "https://api.weixin.qq.com/cgi-bin/template/del_private_template";
+	
+	/**
+	 * 发送模板消息	POST
+	 * https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=ACCESS_TOKEN
+	 */
+	public static final String TEMPLATE_SEND = "https://api.weixin.qq.com/cgi-bin/message/template/send";
+	//--------------------------发送消息-模板消息接口（结束）------------------------------------------//
+	
+	
 	//--------------------------发送消息-群发接口和原创校验（开始）------------------------------------------//
 	public static final String PUSH_TYPE_MPNEWS = "mpnews";
 	

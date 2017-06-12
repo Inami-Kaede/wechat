@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import com.hayate.wechat.common.base.BaseService;
 import com.hayate.wechat.common.config.WeChatOaConfig;
@@ -292,6 +293,188 @@ public class MessageManagementServiceImpl extends BaseService implements
         }
         logger.debug(log+"返回信息（结束）");
         
+        return mapResult;
+	}
+	
+	/** 
+	 * 设置所属行业
+	 */
+	@Override
+	public Map<String,Object> setIndustry(int industryId1,int industryId2){
+		
+		String log = "设置所属行业";
+		
+		Map<String,String> params = new LinkedHashMap<String, String>();
+		params.put("access_token", getAccessToken());
+				
+		Map<String,Object> bodyMap = new LinkedHashMap<String,Object>();
+		bodyMap.put("industry_id1", industryId1);
+		bodyMap.put("industry_id2", industryId2);
+		
+		String json = JsonUtils.objectToJson(bodyMap);
+		logger.debug("转换后的json："+json);
+	
+		String stringResult = HttpClientUtil.doPostJson(WeChatOaConfig.TEMPLATE_SET_INDUSTRY, params, json);
+		logger.debug("返回的json："+stringResult);
+		Map<String,Object> mapResult = JsonUtils.jsonToPojo(stringResult, HashMap.class);
+		
+		logger.debug(log+"返回信息（开始）");
+        for(Entry<String,Object> e : mapResult.entrySet()){
+        	logger.debug(e.getKey()+":"+e.getValue());       	
+        }
+        logger.debug(log+"返回信息（结束）");
+
+        return mapResult;
+	}
+	
+	/** 
+	 * 获取设置的行业信息
+	 */
+	@Override
+	public Map<String,Object> getIndustry(){
+		
+		String log = "获取设置的行业信息";
+		
+		Map<String,String> params = new LinkedHashMap<String, String>();
+		params.put("access_token", getAccessToken());
+
+		String stringResult = HttpClientUtil.doGet(WeChatOaConfig.TEMPLATE_GET_INDUSTRY, params);
+		logger.debug("返回的json："+stringResult);
+		Map<String,Object> mapResult = JsonUtils.jsonToPojo(stringResult, HashMap.class);
+		
+		logger.debug(log+"返回信息（开始）");
+        for(Entry<String,Object> e : mapResult.entrySet()){
+        	logger.debug(e.getKey()+":"+e.getValue());       	
+        }
+        logger.debug(log+"返回信息（结束）");
+
+        return mapResult;
+	}
+	
+	/** 
+	 * 获得模板ID
+	 */
+	@Override
+	public Map<String,Object> addTemplate(String templateIdShort){
+		
+		String log = "获得模板ID";
+		
+		Map<String,String> params = new LinkedHashMap<String, String>();
+		params.put("access_token", getAccessToken());
+				
+		Map<String,Object> bodyMap = new LinkedHashMap<String,Object>();
+		bodyMap.put("template_id_short", templateIdShort);
+		
+		String json = JsonUtils.objectToJson(bodyMap);
+		logger.debug("转换后的json："+json);
+	
+		String stringResult = HttpClientUtil.doPostJson(WeChatOaConfig.TEMPLATE_ADD_TEMPLATE, params, json);
+		logger.debug("返回的json："+stringResult);
+		Map<String,Object> mapResult = JsonUtils.jsonToPojo(stringResult, HashMap.class);
+		
+		logger.debug(log+"返回信息（开始）");
+        for(Entry<String,Object> e : mapResult.entrySet()){
+        	logger.debug(e.getKey()+":"+e.getValue());       	
+        }
+        logger.debug(log+"返回信息（结束）");
+        return mapResult;
+	}
+	
+	/** 
+	 * 获取模板列表
+	 */
+	@Override
+	public List<Map<String,Object>> getAllPrivateTemplate(){
+		
+		String log = "获取模板列表";
+		
+		Map<String,String> params = new LinkedHashMap<String, String>();
+		params.put("access_token", getAccessToken());
+
+		String stringResult = HttpClientUtil.doGet(WeChatOaConfig.TEMPLATE_GET_ALL_PRIVATE_TEMPLATE, params);
+		logger.debug("返回的json："+stringResult);
+		Map<String,Object> mapResult = JsonUtils.jsonToPojo(stringResult, HashMap.class);
+		
+		logger.debug(log+"返回信息（开始）");
+        for(Entry<String,Object> e : mapResult.entrySet()){
+        	logger.debug(e.getKey()+":"+e.getValue());       	
+        }
+        logger.debug(log+"返回信息（结束）");
+        
+        List<Map<String,Object>> list = (List<Map<String, Object>>) mapResult.get("template_list");
+        
+        logger.debug(log+"返回信息2（开始）");
+        
+        for (Map<String, Object> map : list) {			
+        	for(Entry<String,Object> e : map.entrySet()){
+        		logger.debug(e.getKey()+":"+e.getValue());       	
+        	}
+		}
+        logger.debug("----------------------");
+        logger.debug(log+"返回信息2（结束）");
+
+        return list;
+	}
+	
+	/** 
+	 * 删除模板
+	 */
+	@Override
+	public Map<String,Object> delPrivateTemplate(String templateId){
+		
+		String log = "删除模板";
+		
+		Map<String,String> params = new LinkedHashMap<String, String>();
+		params.put("access_token", getAccessToken());
+				
+		Map<String,Object> bodyMap = new LinkedHashMap<String,Object>();
+		bodyMap.put("template_id", templateId);
+		
+		String json = JsonUtils.objectToJson(bodyMap);
+		logger.debug("转换后的json："+json);
+	
+		String stringResult = HttpClientUtil.doPostJson(WeChatOaConfig.TEMPLATE_DEL_PRIVATE_TEMPLATE, params, json);
+		logger.debug("返回的json："+stringResult);
+		Map<String,Object> mapResult = JsonUtils.jsonToPojo(stringResult, HashMap.class);
+		
+		logger.debug(log+"返回信息（开始）");
+        for(Entry<String,Object> e : mapResult.entrySet()){
+        	logger.debug(e.getKey()+":"+e.getValue());       	
+        }
+        logger.debug(log+"返回信息（结束）");
+        return mapResult;
+	}
+	
+	/** 
+	 * 发送模板消息
+	 */
+	@Override
+	public Map<String,Object> send(String touser,String templateId,String url,Map<String,Object> miniprogram,Map<String,Object> data){
+		
+		String log = "发送模板消息";
+		
+		Map<String,String> params = new LinkedHashMap<String, String>();
+		params.put("access_token", getAccessToken());
+				
+		Map<String,Object> bodyMap = new LinkedHashMap<String,Object>();
+		bodyMap.put("touser", touser);
+		bodyMap.put("template_id", templateId);
+		bodyMap.put("url", url);
+		bodyMap.put("miniprogram", miniprogram);
+		bodyMap.put("data", data);
+		
+		String json = JsonUtils.objectToJson(bodyMap);
+		logger.debug("转换后的json："+json);
+	
+		String stringResult = HttpClientUtil.doPostJson(WeChatOaConfig.TEMPLATE_SEND, params, json);
+		logger.debug("返回的json："+stringResult);
+		Map<String,Object> mapResult = JsonUtils.jsonToPojo(stringResult, HashMap.class);
+		
+		logger.debug(log+"返回信息（开始）");
+        for(Entry<String,Object> e : mapResult.entrySet()){
+        	logger.debug(e.getKey()+":"+e.getValue());       	
+        }
+        logger.debug(log+"返回信息（结束）");
         return mapResult;
 	}
 }
