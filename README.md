@@ -1,0 +1,1 @@
+暂时先提供传统的Spring XML配置版项目，后期会加入Spring java配置和Spring Boot版本，以方便使用不同环境的开发人员
