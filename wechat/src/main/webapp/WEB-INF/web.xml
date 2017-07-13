@@ -47,6 +47,18 @@
 		<filter-name>encodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+	
+	<!-- 获取put表单中的参数键值对 
+		 form表单的代码必须如下：
+		 <form action="" method="put" enctype="application/x-www-form-urlencoded">  -->
+	<filter>  
+	   <filter-name>httpPutFormcontentFilter</filter-name>  
+	   <filter-class>org.springframework.web.filter.HttpPutFormContentFilter</filter-class>  
+	</filter>  
+	<filter-mapping>  
+	   <filter-name>httpPutFormContentFilter</filter-name>  
+	   <url-pattern>/*</url-pattern>  
+	</filter-mapping> 
 		
 	<!--将POST请求转化为DELETE或者是PUT要用_method指定真正的请求参数-->
 	<filter>
