@@ -1,7 +1,5 @@
 package com.hayate.wechat.common.pojo;
 
-import com.hayate.wechat.common.config.WeChatOaConfig;
-
 public class CommonResult {
 	
 	private boolean isSuccess;
