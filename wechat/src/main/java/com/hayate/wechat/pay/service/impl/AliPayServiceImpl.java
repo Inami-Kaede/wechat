@@ -32,7 +32,7 @@ import com.alipay.api.response.AlipayTradeQueryResponse;
 import com.hayate.wechat.common.base.BaseService;
 import com.hayate.wechat.common.config.AliPayConfig;
 import com.hayate.wechat.common.config.PayStatus;
-import com.hayate.wechat.common.pojo.CommonResult;
+import com.hayate.wechat.common.pojo.CommonResponse;
 import com.hayate.wechat.pay.service.AliPayService;
 
 
@@ -40,7 +40,7 @@ import com.hayate.wechat.pay.service.AliPayService;
 public class AliPayServiceImpl extends BaseService implements AliPayService {
 
 	@Override
-	public CommonResult order(String orderId,Double totalPrice) {
+	public CommonResponse order(String orderId,Double totalPrice) {
 		
 		logger.info("开始支付宝下单!订单号："+orderId);
 		
@@ -81,28 +81,28 @@ public class AliPayServiceImpl extends BaseService implements AliPayService {
 				
 				if(StringUtils.isEmpty(body)){
 					
-					return new CommonResult(PayStatus.PAY_ERR_CODE_COMMUNICATION_ERROR, "返回结果为空");
+					return new CommonResponse(PayStatus.PAY_ERR_CODE_COMMUNICATION_ERROR, "返回结果为空");
 					
 				}
-				return new CommonResult(body);
+				return new CommonResponse(body);
 			
 			}else{
 				
 				logger.error("订单号为："+orderId+"的订单（第三方----支付宝）下单失败！错误信息："+response.getCode()+":"+response.getMsg());
 				logger.error("详细错误信息："+response.getSubCode()+":"+response.getSubMsg());
-				return new CommonResult(response.getSubCode(), response.getSubMsg());
+				return new CommonResponse(response.getSubCode(), response.getSubMsg());
 			
 			}
 		
 		} catch (AlipayApiException e) {
 			
 			logger.error(e.toString());
-			return new CommonResult(PayStatus.PAY_ERR_CODE_UNKNOWN_ERROR, "未知错误");
+			return new CommonResponse(PayStatus.PAY_ERR_CODE_UNKNOWN_ERROR, "未知错误");
 		}
 	}
 	
 	@Override
-	public CommonResult notify(HttpServletRequest request) {
+	public CommonResponse notify(HttpServletRequest request) {
 		
 		logger.info("======支付宝回调==========");
 		// 获取支付宝POST过来反馈信息
@@ -160,7 +160,7 @@ public class AliPayServiceImpl extends BaseService implements AliPayService {
 				if(!oldStatus.equals(PayStatus.WECHAT_TRADE_STATUS_NOTPAY)){
 
 					logger.info("支付结果通知：（重复的请求）订单号为："+orderId+"的订单已处理");
-					return new CommonResult(false, PayStatus.PAY_ERR_CODE_REPETITIVE_SUBMISSION, "重复的请求", PayStatus.ALI_NOTIFY_RETURN_CODE_SUCCESS);
+					return new CommonResponse(false, PayStatus.PAY_ERR_CODE_REPETITIVE_SUBMISSION, "重复的请求", PayStatus.ALI_NOTIFY_RETURN_CODE_SUCCESS);
 					
 				}
 				
@@ -172,19 +172,19 @@ public class AliPayServiceImpl extends BaseService implements AliPayService {
 						
 						//TODO 返回订单号，用作后续业务处理
 						logger.info("订单号："+orderId+"的订单已支付");
-						return new CommonResult(orderId);
+						return new CommonResponse(orderId);
 						
 					}else if(trade_status.equals(PayStatus.ALI_TRADE_STATUS_TRADE_CLOSED)){
 						
 						//TODO !!!!!!!!!!!!!!!!!!!!!此处比较特殊，注意业务处理!!!!!!!!!!!!!!!!!!!!!!
 						//如果订单被关闭
 						logger.info("订单号："+orderId+"的订单被关闭");
-						return new CommonResult(false, PayStatus.PAY_ERR_CODE_ALI_ORDER_CLOSED, "订单被关闭", orderId);
+						return new CommonResponse(false, PayStatus.PAY_ERR_CODE_ALI_ORDER_CLOSED, "订单被关闭", orderId);
 						
 					}else{
 						
 						logger.error("订单状态错误，订单号："+orderId);
-						return new CommonResult(false, PayStatus.PAY_ERR_CODE_TRADE_STATUS_ERROR, "订单状态错误", PayStatus.ALI_NOTIFY_RETURN_CODE_FAILURE);
+						return new CommonResponse(false, PayStatus.PAY_ERR_CODE_TRADE_STATUS_ERROR, "订单状态错误", PayStatus.ALI_NOTIFY_RETURN_CODE_FAILURE);
 					
 					}
 									
@@ -192,7 +192,7 @@ public class AliPayServiceImpl extends BaseService implements AliPayService {
 					
 					//异步通知的价格和本地价格不一致
 					logger.error("价格信息错误，订单号："+orderId);
-					return new CommonResult(false, PayStatus.PAY_ERR_CODE_AMOUNT_ERROR, "金额不一致", PayStatus.ALI_NOTIFY_RETURN_CODE_FAILURE);
+					return new CommonResponse(false, PayStatus.PAY_ERR_CODE_AMOUNT_ERROR, "金额不一致", PayStatus.ALI_NOTIFY_RETURN_CODE_FAILURE);
 				
 				}
 							
@@ -200,20 +200,20 @@ public class AliPayServiceImpl extends BaseService implements AliPayService {
 				
 				//签名校验失败
 				logger.error("签名校验失败！");
-				return new CommonResult(false, PayStatus.PAY_ERR_CODE_SIGNATURE_ERROR, "签名校验失败！", PayStatus.ALI_NOTIFY_RETURN_CODE_FAILURE);
+				return new CommonResponse(false, PayStatus.PAY_ERR_CODE_SIGNATURE_ERROR, "签名校验失败！", PayStatus.ALI_NOTIFY_RETURN_CODE_FAILURE);
 				
 			}
 		
 		} catch (AlipayApiException e) {
 			
 			logger.error(e.toString());
-			return new CommonResult(false, PayStatus.PAY_ERR_CODE_UNKNOWN_ERROR, "未知错误", PayStatus.ALI_NOTIFY_RETURN_CODE_FAILURE);
+			return new CommonResponse(false, PayStatus.PAY_ERR_CODE_UNKNOWN_ERROR, "未知错误", PayStatus.ALI_NOTIFY_RETURN_CODE_FAILURE);
 		
 		}
 	}
 	
 	@Override
-	public CommonResult orderQuery(String orderId) {
+	public CommonResponse orderQuery(String orderId) {
 
 		logger.info("支付宝订单查询，订单号为:"+orderId);
 		AlipayClient alipayClient = new DefaultAlipayClient(AliPayConfig.GATEWAY_URL,AliPayConfig.APP_ID,AliPayConfig.PRIVATE_KEY,AliPayConfig.FORMAT,AliPayConfig.CHARSET,AliPayConfig.PUBLIC_KEY,AliPayConfig.SIGN_TYPE);
@@ -245,26 +245,26 @@ public class AliPayServiceImpl extends BaseService implements AliPayService {
 				String newTradeStatus = response.getTradeStatus();
 				
 				logger.info("订单查询（支付宝）成功！返回的订单号为："+newOrderId+" 当前状态为："+newTradeStatus);
-				return new CommonResult(newTradeStatus);
+				return new CommonResponse(newTradeStatus);
 			
 			} else {
 				
 				logger.error("订单号为："+orderId+"的订单（支付宝）查询失败！错误信息："+response.getCode()+":"+response.getMsg());
 				logger.error("详细错误信息："+response.getSubCode()+":"+response.getSubMsg());
-				return new CommonResult(response.getSubCode(), response.getSubMsg());
+				return new CommonResponse(response.getSubCode(), response.getSubMsg());
 			
 			}
 		
 		} catch (AlipayApiException e) {
 			
 			logger.error(e.toString());
-			return new CommonResult(PayStatus.PAY_ERR_CODE_UNKNOWN_ERROR, "未知错误");
+			return new CommonResponse(PayStatus.PAY_ERR_CODE_UNKNOWN_ERROR, "未知错误");
 		
 		}
 	}
 	
 	@Override
-	public CommonResult closeOrder(String orderId) {
+	public CommonResponse closeOrder(String orderId) {
 
 		logger.info("关闭支付宝订单，订单号为:"+orderId);
 		AlipayClient alipayClient = new DefaultAlipayClient(AliPayConfig.GATEWAY_URL,AliPayConfig.APP_ID,AliPayConfig.PRIVATE_KEY,AliPayConfig.FORMAT,AliPayConfig.CHARSET,AliPayConfig.PUBLIC_KEY,AliPayConfig.SIGN_TYPE);
@@ -299,26 +299,26 @@ public class AliPayServiceImpl extends BaseService implements AliPayService {
 				
 				//TODO 返回关闭的订单号，用做后续业务处理
 				
-				return new CommonResult(newOrderId);
+				return new CommonResponse(newOrderId);
 			
 			} else {
 
 				logger.error("订单号为："+orderId+"的订单（第三方----支付宝）关闭失败！错误信息："+response.getCode()+":"+response.getMsg());
 				logger.error("详细错误信息："+response.getSubCode()+":"+response.getSubMsg());
-				return new CommonResult(response.getSubCode(), response.getSubMsg());
+				return new CommonResponse(response.getSubCode(), response.getSubMsg());
 			
 			}
 		
 		} catch (AlipayApiException e) {
 			
 			logger.error(e.toString());
-			return new CommonResult(PayStatus.PAY_ERR_CODE_UNKNOWN_ERROR, "未知错误");
+			return new CommonResponse(PayStatus.PAY_ERR_CODE_UNKNOWN_ERROR, "未知错误");
 		}
 		
 	}
 	
 	@Override
-	public CommonResult transfer(Double amount,String orderId,String aliAccount) {
+	public CommonResponse transfer(Double amount,String orderId,String aliAccount) {
 				
 		logger.info("进行支付宝转账，订单号为:"+orderId);
 		//发送请求到支付宝
@@ -367,28 +367,28 @@ public class AliPayServiceImpl extends BaseService implements AliPayService {
 					
 					//TODO 返回成功信息（日期），做后续业务处理
 					
-					return new CommonResult(payDate);
+					return new CommonResponse(payDate);
 				
 				}
 				
 				logger.error("订单号为："+orderId+"的订单（支付宝）返回结果异常！"+response.getCode()+":"+response.getMsg());
-				return new CommonResult(response.getCode(), response.getMsg());
+				return new CommonResponse(response.getCode(), response.getMsg());
 			} else {
 				
 				logger.error("订单号为："+orderId+"的订单（支付宝）打款失败！错误信息："+response.getCode()+":"+response.getMsg());
 				logger.error("详细错误信息："+response.getSubCode()+":"+response.getSubMsg());
-				return new CommonResult(response.getSubCode(), response.getSubMsg());
+				return new CommonResponse(response.getSubCode(), response.getSubMsg());
 			}
 		
 		} catch (AlipayApiException e) {			
 			logger.error(e.toString());
-			return new CommonResult(PayStatus.PAY_ERR_CODE_UNKNOWN_ERROR, "未知错误");
+			return new CommonResponse(PayStatus.PAY_ERR_CODE_UNKNOWN_ERROR, "未知错误");
 		
 		}
 	}
 	
 	@Override
-	public CommonResult transferQuery(String orderId) {
+	public CommonResponse transferQuery(String orderId) {
 
 		logger.info("开始订单号为:"+orderId+"订单的打款（支付宝）查询");
 		AlipayClient alipayClient = new DefaultAlipayClient(AliPayConfig.GATEWAY_URL,AliPayConfig.APP_ID,AliPayConfig.PRIVATE_KEY,AliPayConfig.FORMAT,AliPayConfig.CHARSET,AliPayConfig.PUBLIC_KEY,AliPayConfig.SIGN_TYPE);
@@ -422,23 +422,23 @@ public class AliPayServiceImpl extends BaseService implements AliPayService {
 				
 				if(newOrderId.equals(orderId) && !StringUtils.isEmpty(newTradeStatus)){
 					
-					return new CommonResult(newTradeStatus);
+					return new CommonResponse(newTradeStatus);
 				
 				}
 				logger.error("订单号为："+orderId+"的打款订单查询（支付宝）返回结果异常！"+response.getCode()+":"+response.getMsg());
-				return new CommonResult(response.getCode(), response.getMsg());
+				return new CommonResponse(response.getCode(), response.getMsg());
 			
 			} else {
 								
 				logger.error("订单号为："+orderId+"的订单（支付宝）打款查询失败！错误信息："+response.getCode()+":"+response.getMsg());
 				logger.error("详细错误信息："+response.getSubCode()+":"+response.getSubMsg());
-				return new CommonResult(response.getSubCode(), response.getSubMsg());
+				return new CommonResponse(response.getSubCode(), response.getSubMsg());
 			}
 		
 		} catch (AlipayApiException e) {
 
 			logger.error(e.toString());
-			return new CommonResult(PayStatus.PAY_ERR_CODE_UNKNOWN_ERROR, "未知错误");
+			return new CommonResponse(PayStatus.PAY_ERR_CODE_UNKNOWN_ERROR, "未知错误");
 		}
 		
 	}

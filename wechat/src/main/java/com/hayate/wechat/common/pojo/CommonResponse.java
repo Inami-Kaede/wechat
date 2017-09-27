@@ -1,6 +1,6 @@
 package com.hayate.wechat.common.pojo;
 
-public class CommonResult {
+public class CommonResponse {
 	
 	private boolean isSuccess;
 
@@ -10,7 +10,7 @@ public class CommonResult {
 	
 	private Object data;
 	
-	public CommonResult(boolean isSuccess, String errCode, String errMsg,
+	public CommonResponse(boolean isSuccess, String errCode, String errMsg,
 			Object data) {
 		super();
 		this.isSuccess = isSuccess;
@@ -19,21 +19,21 @@ public class CommonResult {
 		this.data = data;
 	}
 	
-	public CommonResult(boolean isSuccess) {
+	public CommonResponse(boolean isSuccess) {
 		this.isSuccess = isSuccess;
 		this.errCode = null;
 		this.errMsg = null;
 		this.data = null;
 	}
 
-	public CommonResult(Object data) {
+	public CommonResponse(Object data) {
 		this.isSuccess = true;
 		this.errCode = null;
 		this.errMsg = null;
 		this.data = data;
 	}
 	
-	public CommonResult(String errCode,String errMsg) {
+	public CommonResponse(String errCode,String errMsg) {
 		this.isSuccess = false;
 		this.errCode = errCode;
 		this.errMsg = errMsg;

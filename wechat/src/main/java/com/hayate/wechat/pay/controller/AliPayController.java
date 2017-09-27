@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hayate.wechat.common.base.BaseController;
-import com.hayate.wechat.common.pojo.CommonResult;
+import com.hayate.wechat.common.pojo.CommonResponse;
 import com.hayate.wechat.pay.service.AliPayService;
 
 @Api(tags="支付-支付宝")
@@ -32,14 +32,14 @@ public class AliPayController extends BaseController{
 	  })
 	@RequestMapping(value="order", method = RequestMethod.POST)
 	@ResponseBody
-	public CommonResult order(String orderId,Double totalPrice) {
+	public CommonResponse order(String orderId,Double totalPrice) {
 		return aliPayService.order(orderId, totalPrice);
 	}
 	
 	@ApiOperation(value = "支付宝回调") 
 	@RequestMapping(value="notify", method = RequestMethod.POST)
 	@ResponseBody
-	public CommonResult notify(HttpServletRequest request) {
+	public CommonResponse notify(HttpServletRequest request) {
 		return aliPayService.notify(request);
 	}
 	
@@ -49,7 +49,7 @@ public class AliPayController extends BaseController{
 	  })
 	@RequestMapping(value="order/query", method = RequestMethod.POST)
 	@ResponseBody
-	public CommonResult orderQuery(String orderId) {
+	public CommonResponse orderQuery(String orderId) {
 		return aliPayService.orderQuery(orderId);
 	}
 	
@@ -59,7 +59,7 @@ public class AliPayController extends BaseController{
 	  })
 	@RequestMapping(value="order/close", method = RequestMethod.POST)
 	@ResponseBody
-	public CommonResult closeOrder(String orderId) {
+	public CommonResponse closeOrder(String orderId) {
 		return aliPayService.closeOrder(orderId);
 	}
 	
@@ -71,7 +71,7 @@ public class AliPayController extends BaseController{
 	  })
 	@RequestMapping(value="transfer", method = RequestMethod.POST)
 	@ResponseBody
-	public CommonResult transfer(Double amount,String orderId,String aliAccount) {
+	public CommonResponse transfer(Double amount,String orderId,String aliAccount) {
 		return aliPayService.transfer(amount, orderId, aliAccount);
 	}
 	
@@ -81,7 +81,7 @@ public class AliPayController extends BaseController{
 	  })
 	@RequestMapping(value="transfer/query", method = RequestMethod.POST)
 	@ResponseBody
-	public CommonResult transferQuery(String orderId) {
+	public CommonResponse transferQuery(String orderId) {
 		return aliPayService.transferQuery(orderId);
 	}
 }

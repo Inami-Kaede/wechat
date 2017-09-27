@@ -15,7 +15,7 @@ import org.springframework.util.StringUtils;
 import com.hayate.wechat.common.base.BaseService;
 import com.hayate.wechat.common.config.PayStatus;
 import com.hayate.wechat.common.config.WeChatOaConfig;
-import com.hayate.wechat.common.pojo.CommonResult;
+import com.hayate.wechat.common.pojo.CommonResponse;
 import com.hayate.wechat.common.util.Arith;
 import com.hayate.wechat.common.util.CommonUtil;
 import com.hayate.wechat.common.util.HttpClientUtil;
@@ -38,7 +38,7 @@ public class WeChatPayServiceImpl extends BaseService implements WeChatPayServic
 	 * @return
 	 */
 	@Override
-	public CommonResult unifiedOrder(String orderId,Double totalPrice,Date date,int tradeType,String openId) {
+	public CommonResponse unifiedOrder(String orderId,Double totalPrice,Date date,int tradeType,String openId) {
 		
 		DateTime dt = new DateTime(date);
 		
@@ -83,7 +83,7 @@ public class WeChatPayServiceImpl extends BaseService implements WeChatPayServic
 		if (StringUtils.isEmpty(xmlResult)){
 			
 			logger.error("错误：下单（微信）失败！请求未响应或为空！对应订单号为："+orderId);
-			return new CommonResult(PayStatus.PAY_ERR_CODE_COMMUNICATION_ERROR,"请求未响应或为空");
+			return new CommonResponse(PayStatus.PAY_ERR_CODE_COMMUNICATION_ERROR,"请求未响应或为空");
 		
 		}
 		
@@ -129,7 +129,7 @@ public class WeChatPayServiceImpl extends BaseService implements WeChatPayServic
 					}else if(tradeType == WeChatOaConfig.INT_TRADE_TYPE_NATIVE){
 						
 						String codeUrl = (String) mapResult.get("code_url");
-						return new CommonResult(codeUrl);
+						return new CommonResponse(codeUrl);
 						
 					}else if(tradeType == WeChatOaConfig.INT_TRADE_TYPE_APP){
 						sm3.put("appid", WeChatOaConfig.APP_ID);
@@ -144,23 +144,23 @@ public class WeChatPayServiceImpl extends BaseService implements WeChatPayServic
 					logger.info("微信下单成功!对应订单号为："+orderId+"订单数据: "+requestXml);
 					logger.debug("返回数据："+JsonUtils.objectToJson(sm3));
 					
-					return new CommonResult(sm3);		
+					return new CommonResponse(sm3);		
 					
 				}
 				
 				// 签名错误
 				logger.error("统一下单：签名错误！（微信）对应订单号："+orderId);
-				return new CommonResult(PayStatus.PAY_ERR_CODE_SIGNATURE_ERROR, "签名错误");	
+				return new CommonResponse(PayStatus.PAY_ERR_CODE_SIGNATURE_ERROR, "签名错误");	
 			
 			} 
 			
 			// 业务码错误
 			logger.error("统一下单：业务码错误（微信）！对应订单号："+orderId+"错误信息："+mapResult.get("err_code")+":"+mapResult.get("err_code_des"));			
-			return new CommonResult((String)mapResult.get("err_code"), (String)mapResult.get("err_code_des"));
+			return new CommonResponse((String)mapResult.get("err_code"), (String)mapResult.get("err_code_des"));
 		}
 		// 通信码错误
 		logger.error("统一下单：通信错误（微信）！错误信息："+mapResult.get("return_code")+":"+mapResult.get("return_msg"));
-		return new CommonResult((String)mapResult.get("return_code"), (String)mapResult.get("return_msg"));
+		return new CommonResponse((String)mapResult.get("return_code"), (String)mapResult.get("return_msg"));
 	}
 	
 	/**
@@ -172,7 +172,7 @@ public class WeChatPayServiceImpl extends BaseService implements WeChatPayServic
 	 * @return
 	 */
 	@Override
-	public CommonResult unifiedOrderJsapi(String orderId,Double totalPrice,Date date,String openId) {
+	public CommonResponse unifiedOrderJsapi(String orderId,Double totalPrice,Date date,String openId) {
 		return unifiedOrder(orderId, totalPrice, date, WeChatOaConfig.INT_TRADE_TYPE_JSAPI, openId);
 	}
 	
@@ -184,7 +184,7 @@ public class WeChatPayServiceImpl extends BaseService implements WeChatPayServic
 	 * @return
 	 */
 	@Override
-	public CommonResult unifiedOrderNative(String orderId,Double totalPrice,Date date) {
+	public CommonResponse unifiedOrderNative(String orderId,Double totalPrice,Date date) {
 		return unifiedOrder(orderId, totalPrice, date, WeChatOaConfig.INT_TRADE_TYPE_NATIVE, null);
 	}
 	
@@ -196,7 +196,7 @@ public class WeChatPayServiceImpl extends BaseService implements WeChatPayServic
 	 * @return
 	 */
 	@Override
-	public CommonResult unifiedOrderApp(String orderId,Double totalPrice,Date date) {
+	public CommonResponse unifiedOrderApp(String orderId,Double totalPrice,Date date) {
 		return unifiedOrder(orderId, totalPrice, date, WeChatOaConfig.INT_TRADE_TYPE_APP, null);
 	}
 	
@@ -207,7 +207,7 @@ public class WeChatPayServiceImpl extends BaseService implements WeChatPayServic
 	 * @return
 	 */
 	@Override
-	public CommonResult notify(HttpServletRequest request) {
+	public CommonResponse notify(HttpServletRequest request) {
 		
 		Map<String, Object> mapResult = CommonUtil.parseXml(request);
 		
@@ -255,14 +255,14 @@ public class WeChatPayServiceImpl extends BaseService implements WeChatPayServic
 					if (!String.valueOf(Arith.mul(payAmount, 100)).equals(totalFee)){
 						
 						logger.error("本地金额与订单金额信息不匹配！（微信）本地金额："+payAmount+"订单金额："+Double.parseDouble(totalFee)/100);
-						return new CommonResult(false, PayStatus.PAY_ERR_CODE_AMOUNT_ERROR, "金额不一致", CommonUtil.setXML(PayStatus.WECHAT_NOTIFY_RETURN_CODE_FAIL, "金额不一致"));
+						return new CommonResponse(false, PayStatus.PAY_ERR_CODE_AMOUNT_ERROR, "金额不一致", CommonUtil.setXML(PayStatus.WECHAT_NOTIFY_RETURN_CODE_FAIL, "金额不一致"));
 					}
 					
 					//判断是否已处理
 					if (!orderStatus.equals(PayStatus.WECHAT_TRADE_STATUS_NOTPAY)){
 						
 						logger.info("（微信）支付结果通知：订单号为："+orderId+"的订单已处理,该信息为重复的通知");
-						return new CommonResult(false, PayStatus.PAY_ERR_CODE_REPETITIVE_SUBMISSION, "重复的通知",CommonUtil.setXML(PayStatus.WECHAT_NOTIFY_RETURN_CODE_SUCCESS, "成功"));
+						return new CommonResponse(false, PayStatus.PAY_ERR_CODE_REPETITIVE_SUBMISSION, "重复的通知",CommonUtil.setXML(PayStatus.WECHAT_NOTIFY_RETURN_CODE_SUCCESS, "成功"));
 					} 												
 					
 					
@@ -274,23 +274,23 @@ public class WeChatPayServiceImpl extends BaseService implements WeChatPayServic
 					
 					
 					
-					return new CommonResult(orderId);
+					return new CommonResponse(orderId);
 				}
 				
 				// 签名错误
 				logger.error("（微信）支付结果通知：签名错误！");
-				return new CommonResult(false, PayStatus.PAY_ERR_CODE_SIGNATURE_ERROR, "签名错误", CommonUtil.setXML(PayStatus.WECHAT_NOTIFY_RETURN_CODE_FAIL, "签名错误"));
+				return new CommonResponse(false, PayStatus.PAY_ERR_CODE_SIGNATURE_ERROR, "签名错误", CommonUtil.setXML(PayStatus.WECHAT_NOTIFY_RETURN_CODE_FAIL, "签名错误"));
 			} 
 			
 			// 业务码错误
 			logger.error("（微信）支付结果通知：业务码错误！错误信息："+mapResult.get("err_code")+":"+mapResult.get("err_code_des"));
-			return new CommonResult(false, (String)mapResult.get("err_code"), (String)mapResult.get("err_code_des"), CommonUtil.setXML(PayStatus.WECHAT_NOTIFY_RETURN_CODE_FAIL, (String)mapResult.get("err_code_des")));
+			return new CommonResponse(false, (String)mapResult.get("err_code"), (String)mapResult.get("err_code_des"), CommonUtil.setXML(PayStatus.WECHAT_NOTIFY_RETURN_CODE_FAIL, (String)mapResult.get("err_code_des")));
 					
 		} 
 		
 		// 通信码错误
 		logger.error("（微信）支付结果通知：通信错误！错误信息："+mapResult.get("return_code")+":"+mapResult.get("return_msg"));
-		return new CommonResult(false, (String)mapResult.get("return_code"), (String)mapResult.get("return_msg"), CommonUtil.setXML(PayStatus.WECHAT_NOTIFY_RETURN_CODE_FAIL, (String)mapResult.get("return_msg")));
+		return new CommonResponse(false, (String)mapResult.get("return_code"), (String)mapResult.get("return_msg"), CommonUtil.setXML(PayStatus.WECHAT_NOTIFY_RETURN_CODE_FAIL, (String)mapResult.get("return_msg")));
 	}
 	
 	/**
@@ -300,7 +300,7 @@ public class WeChatPayServiceImpl extends BaseService implements WeChatPayServic
 	 * @return
 	 */
 	@Override
-	public CommonResult orderQuery(String orderId,int orderIdType) {
+	public CommonResponse orderQuery(String orderId,int orderIdType) {
 				
 		//准备数据
 		SortedMap<Object, Object> sm = new TreeMap<Object, Object>();
@@ -324,7 +324,7 @@ public class WeChatPayServiceImpl extends BaseService implements WeChatPayServic
 		if(StringUtils.isEmpty(xmlResult)){
 			
 			logger.error("订单查询（微信）失败！返回值为空 对应单号为："+orderId);
-			return new CommonResult(PayStatus.PAY_ERR_CODE_COMMUNICATION_ERROR,"请求未响应或为空");
+			return new CommonResponse(PayStatus.PAY_ERR_CODE_COMMUNICATION_ERROR,"请求未响应或为空");
 		
 		}
 		
@@ -354,23 +354,23 @@ public class WeChatPayServiceImpl extends BaseService implements WeChatPayServic
 				if (sign2.equals(CommonUtil.createSign(WeChatOaConfig.CHARSET, sm2,WeChatOaConfig.KEY))) {
 					
 					logger.info("订单查询（微信）成功！订单号为："+orderId+"的对应状态为："+mapResult.get("trade_state"));
-					return new CommonResult(mapResult.get("trade_state"));
+					return new CommonResponse(mapResult.get("trade_state"));
 				
 				}
 				
 				// 签名错误
 				logger.error("订单查询（微信）失败！签名错误!订单号："+orderId);
-				return new CommonResult(PayStatus.PAY_ERR_CODE_SIGNATURE_ERROR, "签名错误");		
+				return new CommonResponse(PayStatus.PAY_ERR_CODE_SIGNATURE_ERROR, "签名错误");		
 			} 
 			
 			// 业务码错误
 			logger.error("订单查询失败！（微信）订单号："+orderId+"错误信息："+mapResult.get("err_code")+":"+mapResult.get("err_code_des"));			
-			return new CommonResult(false, (String)mapResult.get("err_code"), (String)mapResult.get("err_code_des"), CommonUtil.setXML(PayStatus.WECHAT_NOTIFY_RETURN_CODE_FAIL, (String)mapResult.get("err_code_des")));
+			return new CommonResponse(false, (String)mapResult.get("err_code"), (String)mapResult.get("err_code_des"), CommonUtil.setXML(PayStatus.WECHAT_NOTIFY_RETURN_CODE_FAIL, (String)mapResult.get("err_code_des")));
 		} 
 		
 		// 通信码错误
 		logger.error("订单查询失败！（微信）订单号："+orderId+"错误信息："+mapResult.get("return_code")+":"+mapResult.get("return_msg"));
-		return new CommonResult(false, (String)mapResult.get("return_code"), (String)mapResult.get("return_msg"), CommonUtil.setXML(PayStatus.WECHAT_NOTIFY_RETURN_CODE_FAIL, (String)mapResult.get("return_msg")));
+		return new CommonResponse(false, (String)mapResult.get("return_code"), (String)mapResult.get("return_msg"), CommonUtil.setXML(PayStatus.WECHAT_NOTIFY_RETURN_CODE_FAIL, (String)mapResult.get("return_msg")));
 
 	}
 	
@@ -380,7 +380,7 @@ public class WeChatPayServiceImpl extends BaseService implements WeChatPayServic
 	 * @return
 	 */
 	@Override
-	public CommonResult orderQueryByOutTradeNo(String orderId) {
+	public CommonResponse orderQueryByOutTradeNo(String orderId) {
 		return orderQuery(orderId, WeChatOaConfig.ORDER_QUERY_TYPE_OUT_TRADE_NO);
 	}
 	
@@ -390,7 +390,7 @@ public class WeChatPayServiceImpl extends BaseService implements WeChatPayServic
 	 * @return
 	 */
 	@Override
-	public CommonResult orderQueryByTransactionId(String orderId) {
+	public CommonResponse orderQueryByTransactionId(String orderId) {
 		return orderQuery(orderId, WeChatOaConfig.ORDER_QUERY_TYPE_TRANSACTION_ID);
 	}
 	
@@ -399,7 +399,7 @@ public class WeChatPayServiceImpl extends BaseService implements WeChatPayServic
 	 * 订单号仅支持商户本地订单号
 	 */
 	@Override
-	public CommonResult closeOrder(String orderId) {
+	public CommonResponse closeOrder(String orderId) {
 		
 		
 		logger.info("关闭微信订单，订单号为:"+orderId);
@@ -422,7 +422,7 @@ public class WeChatPayServiceImpl extends BaseService implements WeChatPayServic
 		if(StringUtils.isEmpty(xmlResult)){
 			
 			logger.error("关闭微信订单失败！返回值为空!对应单号为："+orderId);
-			return new CommonResult(PayStatus.PAY_ERR_CODE_COMMUNICATION_ERROR, "返回值为空");
+			return new CommonResponse(PayStatus.PAY_ERR_CODE_COMMUNICATION_ERROR, "返回值为空");
 		
 		}
 		
@@ -453,24 +453,24 @@ public class WeChatPayServiceImpl extends BaseService implements WeChatPayServic
 				if(!StringUtils.isEmpty(errCode)){
 					
 					logger.error("关闭微信订单失败！订单号："+orderId+"错误信息："+errCode+":"+mapResult.get("err_code_des"));	
-					return new CommonResult(errCode, (String)mapResult.get("err_code_des"));
+					return new CommonResponse(errCode, (String)mapResult.get("err_code_des"));
 				}			
 				logger.info("关闭微信订单成功！对应订单号："+orderId);
-				return new CommonResult(true);			
+				return new CommonResponse(true);			
 			} 
 			
 			logger.error("关闭订单失败（第三方----微信）！签名错误!订单号："+orderId);
-			return new CommonResult(PayStatus.PAY_ERR_CODE_SIGNATURE_ERROR, "签名错误");
+			return new CommonResponse(PayStatus.PAY_ERR_CODE_SIGNATURE_ERROR, "签名错误");
 			
 		}
 		
 		// 通信码错误
 		logger.error("关闭订单失败！（第三方----微信）订单号："+orderId+"错误信息："+mapResult.get("return_code")+":"+mapResult.get("return_msg"));
-		return new CommonResult((String)mapResult.get("return_code"), (String)mapResult.get("return_msg"));
+		return new CommonResponse((String)mapResult.get("return_code"), (String)mapResult.get("return_msg"));
 	}
 	
 	@Override
-	public CommonResult transfers(Double amount,String orderId,String openId) {
+	public CommonResponse transfers(Double amount,String orderId,String openId) {
 		
 		//准备发送请求
 		SortedMap<Object, Object> sm = new TreeMap<Object, Object>();
@@ -496,7 +496,7 @@ public class WeChatPayServiceImpl extends BaseService implements WeChatPayServic
 		if(StringUtils.isEmpty(xmlResult)){
 			
 			logger.error("错误：请求响应为空！（微信）");
-			return new CommonResult(PayStatus.PAY_ERR_CODE_COMMUNICATION_ERROR, "请求响应为空");
+			return new CommonResponse(PayStatus.PAY_ERR_CODE_COMMUNICATION_ERROR, "请求响应为空");
 		
 		}
 		
@@ -523,7 +523,7 @@ public class WeChatPayServiceImpl extends BaseService implements WeChatPayServic
 						&& !StringUtils.isEmpty(mapResult.get("payment_time"))){
 										
 					logger.info("用户完成提现（微信），金额为："+amount+"对应订单号："+orderId);
-					return new CommonResult(mapResult.get("payment_time"));
+					return new CommonResponse(mapResult.get("payment_time"));
 				
 				}
 				
@@ -541,7 +541,7 @@ public class WeChatPayServiceImpl extends BaseService implements WeChatPayServic
 					
 				MailUtil.sendMail(WeChatOaConfig.ADMIN_MAIL_ADRESS,title,body);
 
-				return new CommonResult(PayStatus.PAY_ERR_CODE_UNKNOWN_ERROR, "结果返回不完整");
+				return new CommonResponse(PayStatus.PAY_ERR_CODE_UNKNOWN_ERROR, "结果返回不完整");
 			}	
 			
 			//如果余额不足
@@ -554,16 +554,16 @@ public class WeChatPayServiceImpl extends BaseService implements WeChatPayServic
 			
 			// 业务码错误
 			logger.error("打款（微信）错误!对应订单号："+orderId+"错误信息："+mapResult.get("err_code")+":"+mapResult.get("err_code_des"));
-			return new CommonResult((String)mapResult.get("err_code"), (String)mapResult.get("err_code_des"));
+			return new CommonResponse((String)mapResult.get("err_code"), (String)mapResult.get("err_code_des"));
 		}
 		
 		// 通信码错误
 		logger.error("打款（微信）错误！对应订单号："+orderId+"错误信息："+mapResult.get("return_code")+":"+mapResult.get("return_msg"));
-		return new CommonResult((String)mapResult.get("return_code"), (String)mapResult.get("return_msg"));
+		return new CommonResponse((String)mapResult.get("return_code"), (String)mapResult.get("return_msg"));
 	}
 	
 	@Override
-	public CommonResult transfersQuery(String orderId) {
+	public CommonResponse transfersQuery(String orderId) {
 	
 		//准备数据
 		SortedMap<Object, Object> sm = new TreeMap<Object, Object>();
@@ -582,7 +582,7 @@ public class WeChatPayServiceImpl extends BaseService implements WeChatPayServic
 		if(StringUtils.isEmpty(doCertPostXml)){
 			
 			logger.error("错误：请求响应为空（微信）");
-			return new CommonResult(PayStatus.PAY_ERR_CODE_COMMUNICATION_ERROR, "请求响应为空");
+			return new CommonResponse(PayStatus.PAY_ERR_CODE_COMMUNICATION_ERROR, "请求响应为空");
 		
 		}
 		
@@ -605,15 +605,15 @@ public class WeChatPayServiceImpl extends BaseService implements WeChatPayServic
 			if (mapResult.get("result_code").equals(PayStatus.WECHAT_RESULT_CODE_SUCCESS)) {
 				
 				logger.info("提现查询（微信）成功！订单号为："+orderId+"的对应状态为："+mapResult.get("status"));
-				return new CommonResult(mapResult.get("status"));
+				return new CommonResponse(mapResult.get("status"));
 			
 			}
 			
 			logger.error("提现查询失败！（微信）订单号："+orderId+"错误信息："+mapResult.get("err_code")+":"+mapResult.get("err_code_des"));
-			return new CommonResult((String)mapResult.get("err_code"), (String)mapResult.get("err_code_des"));
+			return new CommonResponse((String)mapResult.get("err_code"), (String)mapResult.get("err_code_des"));
 		}
 		
 		logger.error("提现查询失败！（微信）订单号："+orderId+"错误信息："+mapResult.get("return_code")+":"+mapResult.get("return_msg"));
-		return new CommonResult((String)mapResult.get("return_code"), (String)mapResult.get("return_msg"));
+		return new CommonResponse((String)mapResult.get("return_code"), (String)mapResult.get("return_msg"));
 	}
 }

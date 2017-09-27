@@ -4,33 +4,33 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.hayate.wechat.common.pojo.CommonResult;
+import com.hayate.wechat.common.pojo.CommonResponse;
 
 
 public interface WeChatPayService {
 
-	CommonResult unifiedOrder(String orderId, Double totalPrice, Date date,
+	CommonResponse unifiedOrder(String orderId, Double totalPrice, Date date,
 			int tradeType, String openId);
 
-	CommonResult unifiedOrderJsapi(String orderId, Double totalPrice,
+	CommonResponse unifiedOrderJsapi(String orderId, Double totalPrice,
 			Date date, String openId);
 
-	CommonResult unifiedOrderNative(String orderId, Double totalPrice, Date date);
+	CommonResponse unifiedOrderNative(String orderId, Double totalPrice, Date date);
 
-	CommonResult unifiedOrderApp(String orderId, Double totalPrice, Date date);
+	CommonResponse unifiedOrderApp(String orderId, Double totalPrice, Date date);
 
-	CommonResult notify(HttpServletRequest request);
+	CommonResponse notify(HttpServletRequest request);
 
-	CommonResult orderQuery(String orderId, int orderIdType);
+	CommonResponse orderQuery(String orderId, int orderIdType);
 
-	CommonResult orderQueryByOutTradeNo(String orderId);
+	CommonResponse orderQueryByOutTradeNo(String orderId);
 
-	CommonResult orderQueryByTransactionId(String orderId);
+	CommonResponse orderQueryByTransactionId(String orderId);
 
-	CommonResult closeOrder(String orderId);
+	CommonResponse closeOrder(String orderId);
 
-	CommonResult transfers(Double amount, String orderId, String openId);
+	CommonResponse transfers(Double amount, String orderId, String openId);
 
-	CommonResult transfersQuery(String orderId);
+	CommonResponse transfersQuery(String orderId);
 
 }

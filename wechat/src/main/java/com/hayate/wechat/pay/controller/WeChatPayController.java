@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hayate.wechat.common.base.BaseController;
 import com.hayate.wechat.common.config.WeChatOaConfig;
-import com.hayate.wechat.common.pojo.CommonResult;
+import com.hayate.wechat.common.pojo.CommonResponse;
 import com.hayate.wechat.pay.service.WeChatPayService;
 
 @Api(tags="支付-微信支付")
@@ -37,7 +37,7 @@ public class WeChatPayController extends BaseController{
 	  })
 	@RequestMapping(value="order", method = RequestMethod.POST)
 	@ResponseBody
-	public CommonResult unifiedOrder(String orderId,Double totalPrice,int tradeType,String openId) {
+	public CommonResponse unifiedOrder(String orderId,Double totalPrice,int tradeType,String openId) {
 		return weChatPayService.unifiedOrder(orderId, totalPrice,new Date(), tradeType, openId);
 	}
 	
@@ -49,7 +49,7 @@ public class WeChatPayController extends BaseController{
 	  })
 	@RequestMapping(value="order/jsapi", method = RequestMethod.POST)
 	@ResponseBody
-	public CommonResult unifiedOrderJsapi(String orderId,Double totalPrice,String openId) {
+	public CommonResponse unifiedOrderJsapi(String orderId,Double totalPrice,String openId) {
 		return weChatPayService.unifiedOrderJsapi(orderId, totalPrice, new Date(), openId);
 	}
 	
@@ -60,7 +60,7 @@ public class WeChatPayController extends BaseController{
 	  })
 	@RequestMapping(value="order/native", method = RequestMethod.POST)
 	@ResponseBody
-	public CommonResult unifiedOrderNative(String orderId,Double totalPrice) {
+	public CommonResponse unifiedOrderNative(String orderId,Double totalPrice) {
 		return weChatPayService.unifiedOrderNative(orderId, totalPrice, new Date());
 	}
 	
@@ -71,14 +71,14 @@ public class WeChatPayController extends BaseController{
 	  })
 	@RequestMapping(value="order/app", method = RequestMethod.POST)
 	@ResponseBody
-	public CommonResult unifiedOrderApp(String orderId,Double totalPrice) {
+	public CommonResponse unifiedOrderApp(String orderId,Double totalPrice) {
 		return weChatPayService.unifiedOrderApp(orderId, totalPrice, new Date());
 	}
 	
 	@ApiOperation(value = "微信回调") 
 	@RequestMapping(value="notify", method = RequestMethod.POST)
 	@ResponseBody
-	public CommonResult notify(HttpServletRequest request) {
+	public CommonResponse notify(HttpServletRequest request) {
 		return weChatPayService.notify(request);
 	}
 	
@@ -89,7 +89,7 @@ public class WeChatPayController extends BaseController{
 	  })
 	@RequestMapping(value="order/query", method = RequestMethod.POST)
 	@ResponseBody
-	public CommonResult orderQuery(String orderId,int orderIdType) {
+	public CommonResponse orderQuery(String orderId,int orderIdType) {
 		return weChatPayService.orderQuery(orderId, orderIdType);
 	}
 	
@@ -99,7 +99,7 @@ public class WeChatPayController extends BaseController{
 	  })
 	@RequestMapping(value="order/query/outtradeno", method = RequestMethod.POST)
 	@ResponseBody
-	public CommonResult orderQueryByOutTradeNo(String orderId) {
+	public CommonResponse orderQueryByOutTradeNo(String orderId) {
 		return weChatPayService.orderQueryByOutTradeNo(orderId);
 	}
 	
@@ -109,7 +109,7 @@ public class WeChatPayController extends BaseController{
 	  })
 	@RequestMapping(value="order/query/transactionid", method = RequestMethod.POST)
 	@ResponseBody
-	public CommonResult orderQueryByTransactionId(String orderId) {
+	public CommonResponse orderQueryByTransactionId(String orderId) {
 		return weChatPayService.orderQueryByTransactionId(orderId);
 	}
 	
@@ -119,7 +119,7 @@ public class WeChatPayController extends BaseController{
 	  })
 	@RequestMapping(value="order/close", method = RequestMethod.POST)
 	@ResponseBody
-	public CommonResult closeOrder(String orderId) {
+	public CommonResponse closeOrder(String orderId) {
 		return weChatPayService.closeOrder(orderId);
 	}
 	
@@ -131,7 +131,7 @@ public class WeChatPayController extends BaseController{
 	  })
 	@RequestMapping(value="transfers", method = RequestMethod.POST)
 	@ResponseBody
-	public CommonResult transfers(Double amount,String orderId,String openId) {
+	public CommonResponse transfers(Double amount,String orderId,String openId) {
 		return weChatPayService.transfers(amount, orderId, openId);
 	}
 	
@@ -141,7 +141,7 @@ public class WeChatPayController extends BaseController{
 	  })
 	@RequestMapping(value="transfers/query", method = RequestMethod.POST)
 	@ResponseBody
-	public CommonResult transfersQuery(String orderId) {
+	public CommonResponse transfersQuery(String orderId) {
 		return weChatPayService.transfersQuery(orderId);
 	}
 }
