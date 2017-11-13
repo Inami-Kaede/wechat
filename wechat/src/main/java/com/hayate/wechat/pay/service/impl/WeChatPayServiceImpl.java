@@ -245,8 +245,8 @@ public class WeChatPayServiceImpl extends BaseService implements WeChatPayServic
 					
 					
 					//TODO 根据订单号查询本地数据库					
-					Double payAmount = 233.05; //本地订单金额
-					Integer userId = 0;		//下单用户ID
+					Double payAmount = 0.01; //本地订单金额
+					Integer userId = 1;		//下单用户ID
 					String orderStatus = PayStatus.WECHAT_TRADE_STATUS_NOTPAY;	//本地数据库订单状态
 					
 					

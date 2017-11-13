@@ -458,7 +458,7 @@ public class HttpClientUtil {
             	builder.addTextBody("description", description, ContentType.APPLICATION_JSON);
             }
             
-            if(!params.isEmpty()){
+            if(params != null && !params.isEmpty()){
             	for(Entry<String, String> e : params.entrySet()){
             		builder.addTextBody(e.getKey(), e.getValue());
             	}
@@ -513,7 +513,7 @@ public class HttpClientUtil {
         try {
         	      	
         	HttpPost httpPost = null;
-        	if(!params.isEmpty()){
+        	if(params != null && !params.isEmpty()){
         		httpPost = new HttpPost(createUrl(url, params));
         	}else{
         		httpPost = new HttpPost(url);
@@ -562,7 +562,7 @@ public class HttpClientUtil {
         try {
         	      	
         	HttpPost httpPost = null;
-        	if(!params.isEmpty()){
+        	if(params != null && !params.isEmpty()){
         		httpPost = new HttpPost(createUrl(url, params));
         	}else{
         		httpPost = new HttpPost(url);

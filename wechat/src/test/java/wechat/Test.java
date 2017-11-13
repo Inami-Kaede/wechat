@@ -10,10 +10,12 @@ import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.SystemMetaObject;
 import org.apache.ibatis.session.Configuration;
+import org.springframework.web.client.RestTemplate;
 
 public class Test {
 
 	public static void main(String[] args) {
+		RestTemplate rt = new RestTemplate();
 	}
 
 }
